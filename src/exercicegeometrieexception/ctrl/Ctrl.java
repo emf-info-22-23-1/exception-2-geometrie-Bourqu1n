@@ -14,15 +14,29 @@ public class Ctrl implements ICtrlIhm {
     
     @Override
     public void selectCalcRadius( String value ) {
+        try{
         double valueDouble = Double.parseDouble( value );
         refIhm.afficheResultatCircle( String.valueOf( refWorker.calcRadiusCircleFromArea( valueDouble ) ) );
+        }catch(NumberFormatException e){
+            refIhm.afficheMessage("Veuillez entrer une valeur valide pour l'aire du cercle ( " + value + " invalide )");
+        }
     }
 
     @Override
     public void selectCalcLargeur( String valueArea, String valueLongueur ) {
+        try{
         double valueAreaDouble = Double.parseDouble( valueArea );
         double valueLongueurDouble = Double.parseDouble( valueLongueur );
         refIhm.afficheResultatRectangle( String.valueOf( refWorker.calcLargeurFromRectangle( valueAreaDouble, valueLongueurDouble ) ) );
+        }catch(NumberFormatException e){
+            if (e.getMessage().contains(valueArea)) {
+                refIhm.afficheMessage("Veuillez entrer une valeur valide pour l'aire du rectangle ( " + valueArea + " invalide )");
+            } else if (e.getMessage().contains(valueLongueur)) {
+                refIhm.afficheMessage("Veuillez entrer une valeur valide pour la longeur du rectangle ( " + valueLongueur + " invalide )");
+            } else {
+                refIhm.afficheMessage("Les valeurs saisies ne sont pas valides.");
+            }
+        }
     }
 
     public void setRefIhm( IIhmCtrl refIhm ) {
